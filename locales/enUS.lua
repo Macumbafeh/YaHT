@@ -1,5 +1,5 @@
 if select(2,UnitClass("player")) ~= "HUNTER" then return end
-local YaHT = select(2, ...)
+YaHT = AceLibrary("AceAddon-2.0"):new("AceEvent-2.0", "AceConsole-2.0", "AceDB-2.0", "AceHook-2.1", "FuBarPlugin-2.0")
 local L = {
 ["Profiles"] = "Profiles",
 ["Overview"] = "Overview",

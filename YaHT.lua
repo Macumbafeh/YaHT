@@ -1,7 +1,8 @@
 -- YaHT - Yet another Hunter Timer by Aviana
 if select(2,UnitClass("player")) ~= "HUNTER" then return end
 
-YaHT = select(2, ...)
+YaHT = AceLibrary("AceAddon-2.0"):new("AceEvent-2.0", "AceConsole-2.0", "AceDB-2.0", "AceHook-2.1", "FuBarPlugin-2.0")
+YaHT.L = AceLibrary("AceLocale-2.2"):new("YaHT")
 
 local L = YaHT.L
 local ACR = LibStub("AceConfigRegistry-3.0", true)
@@ -102,7 +103,7 @@ function YaHT:OnInitialize()
 	self:LoadDefaults()
 	
 	-- Initialize DB
-	self.db = LibStub:GetLibrary("AceDB-3.0"):New("YaHTdb", self.defaults, true)
+	self.db = LibStub:GetLibrary("AceDB-3.0"):New("YaHTdb", self.defaults, "Default")
 	self.db.RegisterCallback(self, "OnProfileChanged", "ProfilesChanged")
 	self.db.RegisterCallback(self, "OnProfileCopied", "ProfilesChanged")
 	self.db.RegisterCallback(self, "OnProfileReset", "ProfileReset")
