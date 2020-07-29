@@ -261,9 +261,7 @@ function YaHT:Load()
 end
 
 function YaHT:COMBAT_LOG_EVENT_UNFILTERED(...)
-	local _, event, _, casterID, _, _, _, targetID, targetName, _, _, spellID, name, _, extra_spell_id, _, _, resisted, blocked, absorbed = select(9, ...)
-	local _, rank, icon, castTime = GetSpellInfo(spellID)
-	local icon, castTime = select(3, GetSpellInfo(spellID))
+	local _, event, casterID, _, _, targetID, targetName, _, spellID, name, _, extra_spell_id, _, _, resisted, blocked, absorbed = select(1, ...)
 	if event == "SWING_DAMAGE" or event == "ENVIRONMENTAL_DAMAGE" or event == "RANGE_DAMAGE" or event == "SPELL_DAMAGE" then
 		if resisted or blocked or absorbed then return end
 		if targetID == UnitGUID("player") then
@@ -298,6 +296,7 @@ function YaHT:COMBAT_LOG_EVENT_UNFILTERED(...)
 	end
 	if (name ~= AimedShot and name ~= MultiShot) or (not YaHT.db.profile.showaimed and name == AimedShot) or (not YaHT.db.profile.showmulti and name == MultiShot) then return end
 	if event == "SPELL_CAST_START" and casterID == UnitGUID("player") then
+		local _, _, icon = GetSpellInfo(spellID)
 		self.mainFrame.casting = true
 		
 		if name == AimedShot then
