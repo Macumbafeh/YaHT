@@ -47,6 +47,9 @@ local function GetSpeedModifier()
 end
 
 local function OnUpdate(self, elapsed)
+	if not self.x then
+		self.x, self.y = GetPlayerMapPosition("player")
+	end
 	local config = YaHT.db.profile
 	if not config.lock then
 		self.mockTime = self.mockTime + elapsed
@@ -65,6 +68,16 @@ local function OnUpdate(self, elapsed)
 		return
 	end
 	local curTime = GetTime()
+
+	local x, y = GetPlayerMapPosition("player")
+	if x ~= self.x or y ~= self.y then
+		self.moving = true
+		self.x = x
+		self.y = y
+	else
+		self.moving = nil
+	end
+
 	if not self.SwingStart and (curTime - self.lastshot) >= self.swingtime then
 		--Start Swing timer
 		if self.shooting and not self.casting then
@@ -77,7 +90,7 @@ local function OnUpdate(self, elapsed)
 			end
 		end
 	elseif self.SwingStart then
-		if IsPlayerMoving() or IsFalling() then
+		if self.moving or IsFalling() then
 			self.SwingStart = curTime
 			self.texture:SetWidth(0.01)
 			self:SetAlpha(config.malpha)
@@ -355,7 +368,7 @@ function YaHT:START_AUTOREPEAT_SPELL()
 	else
 		self.mainFrame.texture:SetVertexColor(config.drawcolor.r,config.drawcolor.g,config.drawcolor.b)
 		self.mainFrame.SwingStart = curTime
-		if IsPlayerMoving() then
+		if self.moving then
 			self.mainFrame.lastshot = curTime - self.mainFrame.swingtime
 		end
 	end
