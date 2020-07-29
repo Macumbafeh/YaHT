@@ -249,8 +249,9 @@ function YaHT:Load()
 	
 	self.mainFrame.background = self.mainFrame:CreateTexture("YaHTMainFrameBackground", "BACKGROUND")
 	self.mainFrame.background:SetAllPoints(self.mainFrame)
-	self.mainFrame.background:SetHorizTile(true)
-	self.mainFrame.background:SetVertTile(true)
+	--TODO figure out if this is important or just aesthetic
+	--self.mainFrame.background:SetHorizTile(true)
+	--self.mainFrame.background:SetVertTile(true)
 	
 	self.mainFrame.texture = self.mainFrame:CreateTexture("YaHTMainFrameBar", "ARTWORK")
 	
