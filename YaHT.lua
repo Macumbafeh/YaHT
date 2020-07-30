@@ -13,6 +13,7 @@ local SWING_TIME = 0.65
 local AimedDelay = 1
 local movementDelay = 0
 
+local AutoShot = GetSpellInfo(75)
 local AimedShot = GetSpellInfo(19434)
 local MultiShot = GetSpellInfo(2643)
 local backdrop = {insets = {}}
@@ -380,7 +381,7 @@ function YaHT:UNIT_SPELLCAST_SUCCEEDED(unit, name, rank)
 		self.mainFrame.casting = nil
 		return
 	end
-	if GetSpellInfo(75)=="Auto Shot" then
+	if name==AutoShot then
 		if self.mainFrame.shooting then
 			self.mainFrame.lastshot = GetTime()
 			self.mainFrame.multishooting = nil
