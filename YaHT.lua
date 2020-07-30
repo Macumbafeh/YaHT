@@ -374,13 +374,13 @@ function YaHT:STOP_AUTOREPEAT_SPELL()
 	end
 end
 
-function YaHT:UNIT_SPELLCAST_SUCCEEDED(unit, castGUID, spellID)
+function YaHT:UNIT_SPELLCAST_SUCCEEDED(unit, name, rank)
 	local config = YaHT.db.profile
 	if self.mainFrame.casting then
 		self.mainFrame.casting = nil
 		return
 	end
-	if spellID == 75 then
+	if GetSpellInfo(75)=="Auto Shot" then
 		if self.mainFrame.shooting then
 			self.mainFrame.lastshot = GetTime()
 			self.mainFrame.multishooting = nil
