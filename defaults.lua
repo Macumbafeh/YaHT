@@ -3,7 +3,8 @@ if select(2,UnitClass("player")) ~= "HUNTER" then return end
 function YaHT:LoadDefaults()
 	self.defaults = {
 		profile = {
-			lock = false,
+			--TODO: Revert default to false when we get options working
+			lock = true,
 			scale = 1,
 			width = 300,
 			height = 5,
