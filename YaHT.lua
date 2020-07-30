@@ -54,6 +54,7 @@ local function OnUpdate(self, elapsed)
 	if not config.lock then
 		self.mockTime = self.mockTime + elapsed
 		if self.mockTime > self.swingtime then
+			if not self.mockTime2 then self.mockTime2 = 0 end
 			self.texture:SetVertexColor(config.drawcolor.r,config.drawcolor.g,config.drawcolor.b)
 			self.texture:SetWidth(self:GetWidth() * (1-(self.mockTime2/SWING_TIME)))
 			self.mockTime2 = self.mockTime2 + elapsed
