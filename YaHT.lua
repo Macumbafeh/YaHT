@@ -420,7 +420,6 @@ end
 
 local frame = CreateFrame("Frame")
 
-frame:RegisterEvent("PLAYER_LOGIN")
 frame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 frame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
 frame:RegisterEvent("START_AUTOREPEAT_SPELL")
@@ -428,10 +427,5 @@ frame:RegisterEvent("STOP_AUTOREPEAT_SPELL")
 frame:RegisterEvent("UNIT_RANGEDDAMAGE")
 frame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 frame:SetScript("OnEvent", function(self, event, ...)
-	if( event == "PLAYER_LOGIN" ) then
-		YaHT:OnInitialize()
-		self:UnregisterEvent("PLAYER_LOGIN")
-	else
-		YaHT[event](YaHT, ...)
-	end
+	YaHT[event](YaHT, ...)
 end)
