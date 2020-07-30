@@ -1,5 +1,5 @@
 if select(2,UnitClass("player")) ~= "HUNTER" then return end
-local Addon = select(1, ...)
+local Addon = "YaHT"
 
 local AceConfigRegistry = LibStub("AceConfigRegistry-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
