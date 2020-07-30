@@ -250,9 +250,6 @@ function YaHT:Load()
 	
 	self.mainFrame.background = self.mainFrame:CreateTexture("YaHTMainFrameBackground", "BACKGROUND")
 	self.mainFrame.background:SetAllPoints(self.mainFrame)
-	--TODO figure out if this is important or just aesthetic
-	--self.mainFrame.background:SetHorizTile(true)
-	--self.mainFrame.background:SetVertTile(true)
 	
 	self.mainFrame.texture = self.mainFrame:CreateTexture("YaHTMainFrameBar", "ARTWORK")
 	
@@ -308,14 +305,7 @@ function YaHT:COMBAT_LOG_EVENT_UNFILTERED(...)
 			castTime = 0.5
 		end
 		
-		CastingBarFrame.Spark:Show()
-		local startColor = CastingBarFrame_GetEffectiveStartColor(CastingBarFrame, false, false)
-		CastingBarFrame:SetStatusBarColor(startColor:GetRGB())
-		if CastingBarFrame.flashColorSameAsStart then
-			CastingBarFrame.Flash:SetVertexColor(startColor:GetRGB())
-		else
-			CastingBarFrame.Flash:SetVertexColor(1, 1, 1)
-		end
+		CastingBarFrameSpark:Show()
 		CastingBarFrame.value = 0
 		CastingBarFrame.baseMaxValue = castTime
 		CastingBarFrame.maxValue = CastingBarFrame.baseMaxValue * GetSpeedModifier()
@@ -330,7 +320,6 @@ function YaHT:COMBAT_LOG_EVENT_UNFILTERED(...)
 				CastingBarFrame.Icon:SetShown(true)
 			end
 		end
-		CastingBarFrame_ApplyAlpha(CastingBarFrame, 1.0)
 		CastingBarFrame.holdTime = 0
 		CastingBarFrame.casting = true
 		CastingBarFrame.castID = nil
@@ -408,7 +397,7 @@ function YaHT:UNIT_SPELLCAST_SUCCEEDED(unit, castGUID, spellID)
 end
 
 function YaHT:UNIT_RANGEDDAMAGE()
-	local castingBarText = CastingBarFrame.Text:GetText()
+	local castingBarText = CastingBarFrameText:GetText()
 	if castingBarText and ( castingBarText == AimedShot or castingBarText == MultiShot ) then
 		CastingBarFrame.maxValue = min(CastingBarFrame.maxValue, CastingBarFrame.baseMaxValue * GetSpeedModifier())
 		CastingBarFrame:SetMinMaxValues(0, CastingBarFrame.maxValue)
