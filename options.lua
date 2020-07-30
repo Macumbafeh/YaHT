@@ -279,7 +279,7 @@ function YaHT:CreateConfig()
 		}
 	}
 
-	AceConfigRegistry:RegisterOptionsTable(Addon, aceoptions, true)
+	AceConfigRegistry:RegisterOptionsTable(Addon, aceoptions)
 	aceoptions.args.profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
 	
 	AceConfigDialog:AddToBlizOptions(Addon, nil, nil, "general")
