@@ -1,5 +1,5 @@
 # YaHT
-Yet another Hunter Timer for WoW classic
+Yet another Hunter Timer for WoW TBC 2.4.3
 
 
 
