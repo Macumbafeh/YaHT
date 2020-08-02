@@ -317,8 +317,8 @@ function YaHT:COMBAT_LOG_EVENT_UNFILTERED(...)
 		CastingBarFrame:SetMinMaxValues(CastingBarFrame.startTime, CastingBarFrame.endTime)
 		CastingBarFrame:SetValue(CastingBarFrame.endTime)
 
-		if ( CastingBarFrame.Text ) then
-			CastingBarFrame.Text:SetText(name)
+		if ( CastingBarFrameText ) then
+			CastingBarFrameText:SetText(name)
 		end
 		if ( CastingBarFrame.Icon ) then
 			CastingBarFrame.Icon:SetTexture(icon)
@@ -346,7 +346,7 @@ function YaHT:UNIT_SPELLCAST_INTERRUPTED(unit, castID, spellID)
 			CastingBarFrame.Spark:Hide()
 		end
 		if ( CastingBarFrame.Text ) then
-			CastingBarFrame.Text:SetText(FAILED)
+			CastingBarFrameText:SetText(FAILED)
 		end
 		CastingBarFrame.casting = nil
 		CastingBarFrame.channeling = nil
