@@ -307,11 +307,16 @@ function YaHT:COMBAT_LOG_EVENT_UNFILTERED(...)
 		end
 		
 		CastingBarFrameSpark:Show()
-		CastingBarFrame.value = 0
-		CastingBarFrame.baseMaxValue = castTime
-		CastingBarFrame.maxValue = CastingBarFrame.baseMaxValue * GetSpeedModifier()
-		CastingBarFrame:SetMinMaxValues(0, CastingBarFrame.maxValue)
-		CastingBarFrame:SetValue(CastingBarFrame.value)
+		local time = GetTime()
+
+		CastingBarFrame.startTime = time
+		CastingBarFrame.endTime = time + castTime
+		CastingBarFrame.duration = CastingBarFrame.endTime - CastingBarFrame.startTime
+		CastingBarFrame.maxValue = CastingBarFrame.endTime
+
+		CastingBarFrame:SetMinMaxValues(CastingBarFrame.startTime, CastingBarFrame.endTime)
+		CastingBarFrame:SetValue(CastingBarFrame.endTime)
+
 		if ( CastingBarFrame.Text ) then
 			CastingBarFrame.Text:SetText(name)
 		end
@@ -321,6 +326,7 @@ function YaHT:COMBAT_LOG_EVENT_UNFILTERED(...)
 				CastingBarFrame.Icon:SetShown(true)
 			end
 		end
+		CastingBarFrame:SetAlpha(1.0)
 		CastingBarFrame.holdTime = 0
 		CastingBarFrame.casting = true
 		CastingBarFrame.castID = nil
