@@ -16,6 +16,7 @@ local movementDelay = 0
 local AutoShot = GetSpellInfo(75)
 local AimedShot = GetSpellInfo(19434)
 local MultiShot = GetSpellInfo(2643)
+local SteadyShot = GetSpellInfo(34120)
 local backdrop = {insets = {}}
 local mediaRequired
 local defaultMedia = {
@@ -294,7 +295,9 @@ function YaHT:COMBAT_LOG_EVENT_UNFILTERED(...)
 			SendChatMessage(string.format(YaHT.db.profile.announcefailmsg,targetName), YaHT.db.profile.announcetype, nil, num or YaHT.db.profile.targetchannel)
 		end
 	end
-	if (name ~= AimedShot and name ~= MultiShot) or (not YaHT.db.profile.showaimed and name == AimedShot) or (not YaHT.db.profile.showmulti and name == MultiShot) then return end
+	if (name ~= AimedShot and name ~= MultiShot and name ~= SteadyShot) or (not YaHT.db.profile.showaimed and name == AimedShot) or (not YaHT.db.profile.showmulti and name == MultiShot) then
+		return
+	end
 	if event == "SPELL_CAST_START" and casterID == UnitGUID("player") then
 		local _, _, icon = GetSpellInfo(spellID)
 		self.mainFrame.casting = true
@@ -302,9 +305,12 @@ function YaHT:COMBAT_LOG_EVENT_UNFILTERED(...)
 		if name == AimedShot then
 			AimedDelay = 1
 			castTime = 3.5
-		else
+		elseif name == MultiShot then
 			castTime = 0.5
+		else
+			castTime = 1.5
 		end
+		castTime = castTime * GetSpeedModifier()
 		
 		CastingBarFrameSpark:Show()
 		local time = GetTime()
@@ -339,7 +345,8 @@ end
 function YaHT:UNIT_SPELLCAST_INTERRUPTED(unit, castID, spellID)
 	self.mainFrame.casting = nil
 	
-	if GetSpellInfo(spellID) == AimedShot or GetSpellInfo(spellID) == MultiShot then
+	local name = GetSpellInfo(spellID)
+	if name == AimedShot or name == MultiShot or name == SteadyShot then
 		CastingBarFrame:SetValue(CastingBarFrame.maxValue)
 		CastingBarFrame:SetStatusBarColor(CastingBarFrame.failedCastColor:GetRGB())
 		if ( CastingBarFrame.Spark ) then
@@ -405,8 +412,8 @@ end
 
 function YaHT:UNIT_RANGEDDAMAGE()
 	local castingBarText = CastingBarFrameText:GetText()
-	if castingBarText and ( castingBarText == AimedShot or castingBarText == MultiShot ) then
-		CastingBarFrame.maxValue = min(CastingBarFrame.maxValue, CastingBarFrame.baseMaxValue * GetSpeedModifier())
+	if castingBarText and ( castingBarText == AimedShot or castingBarText == MultiShot or castingBarText == SteadyShot) then
+		CastingBarFrame.maxValue = min(CastingBarFrame.maxValue, CastingBarFrame.maxValue * GetSpeedModifier())
 		CastingBarFrame:SetMinMaxValues(0, CastingBarFrame.maxValue)
 	end
 	self.mainFrame.newswingtime = UnitRangedDamage("player") - SWING_TIME
