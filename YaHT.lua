@@ -304,41 +304,38 @@ function YaHT:COMBAT_LOG_EVENT_UNFILTERED(...)
 		
 		if name == AimedShot then
 			AimedDelay = 1
-			castTime = 3.5
-		elseif name == MultiShot then
-			castTime = 0.5
-		else
-			castTime = 1.5
 		end
-		castTime = castTime * GetSpeedModifier()
 		
-		CastingBarFrameSpark:Show()
-		local time = GetTime()
+		if name==MultiShot and YaHT.db.profile.showmulti then
+			castTime = 0.5 * GetSpeedModifier()
+			CastingBarFrameSpark:Show()
+			local time = GetTime()
 
-		CastingBarFrame.startTime = time
-		CastingBarFrame.endTime = time + castTime
-		CastingBarFrame.duration = CastingBarFrame.endTime - CastingBarFrame.startTime
-		CastingBarFrame.maxValue = CastingBarFrame.endTime
+			CastingBarFrame.startTime = time
+			CastingBarFrame.endTime = time + castTime
+			CastingBarFrame.duration = CastingBarFrame.endTime - CastingBarFrame.startTime
+			CastingBarFrame.maxValue = CastingBarFrame.endTime
 
-		CastingBarFrame:SetMinMaxValues(CastingBarFrame.startTime, CastingBarFrame.endTime)
-		CastingBarFrame:SetValue(CastingBarFrame.endTime)
+			CastingBarFrame:SetMinMaxValues(CastingBarFrame.startTime, CastingBarFrame.endTime)
+			CastingBarFrame:SetValue(CastingBarFrame.endTime)
 
-		if ( CastingBarFrameText ) then
-			CastingBarFrameText:SetText(name)
-		end
-		if ( CastingBarFrame.Icon ) then
-			CastingBarFrame.Icon:SetTexture(icon)
-			if ( CastingBarFrame.iconWhenNoninterruptible ) then
-				CastingBarFrame.Icon:SetShown(true)
+			if ( CastingBarFrameText ) then
+				CastingBarFrameText:SetText(name)
 			end
+			if ( CastingBarFrame.Icon ) then
+				CastingBarFrame.Icon:SetTexture(icon)
+				if ( CastingBarFrame.iconWhenNoninterruptible ) then
+					CastingBarFrame.Icon:SetShown(true)
+				end
+			end
+			CastingBarFrame:SetAlpha(1.0)
+			CastingBarFrame.holdTime = 0
+			CastingBarFrame.casting = true
+			CastingBarFrame.castID = nil
+			CastingBarFrame.channeling = nil
+			CastingBarFrame.fadeOut = nil
+			CastingBarFrame:Show()
 		end
-		CastingBarFrame:SetAlpha(1.0)
-		CastingBarFrame.holdTime = 0
-		CastingBarFrame.casting = true
-		CastingBarFrame.castID = nil
-		CastingBarFrame.channeling = nil
-		CastingBarFrame.fadeOut = nil
-		CastingBarFrame:Show()
 	end
 end
 
