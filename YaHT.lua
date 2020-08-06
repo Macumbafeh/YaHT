@@ -295,18 +295,17 @@ function YaHT:COMBAT_LOG_EVENT_UNFILTERED(...)
 			SendChatMessage(string.format(YaHT.db.profile.announcefailmsg,targetName), YaHT.db.profile.announcetype, nil, num or YaHT.db.profile.targetchannel)
 		end
 	end
-	if (name ~= AimedShot and name ~= MultiShot and name ~= SteadyShot) or (not YaHT.db.profile.showaimed and name == AimedShot) or (not YaHT.db.profile.showmulti and name == MultiShot) then
-		return
-	end
 	if event == "SPELL_CAST_START" and casterID == UnitGUID("player") then
-		local _, _, icon = GetSpellInfo(spellID)
-		self.mainFrame.casting = true
-		
+		if(name == AimedShot or name == MultiShot or name == SteadyShot) then
+			self.mainFrame.casting = true
+		end
+
 		if name == AimedShot then
 			AimedDelay = 1
 		end
 		
 		if name==MultiShot and YaHT.db.profile.showmulti then
+			local _, _, icon = GetSpellInfo(spellID)
 			castTime = 0.5 * GetSpeedModifier()
 			CastingBarFrameSpark:Show()
 			local time = GetTime()
