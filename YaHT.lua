@@ -81,6 +81,12 @@ local function OnUpdate(self, elapsed)
 		self.moving = nil
 	end
 
+	local isFeign=UnitIsFeignDeath("player")
+	if not isFeign and self.isFeign then
+		YaHT:ResetSwingTimer()
+	end
+	self.isFeign = isFeign
+
 	if not self.SwingStart and (curTime - self.lastshot) >= self.swingtime then
 		--Start Swing timer
 		if self.shooting and not self.casting then
