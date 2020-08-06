@@ -342,7 +342,7 @@ function YaHT:UNIT_SPELLCAST_INTERRUPTED(unit, castID, spellID)
 	self.mainFrame.casting = nil
 	
 	local name = GetSpellInfo(spellID)
-	if name == AimedShot or name == MultiShot or name == SteadyShot then
+	if name == MultiShot then
 		CastingBarFrame:SetValue(CastingBarFrame.maxValue)
 		CastingBarFrame:SetStatusBarColor(CastingBarFrame.failedCastColor:GetRGB())
 		if ( CastingBarFrame.Spark ) then
@@ -411,7 +411,7 @@ end
 
 function YaHT:UNIT_RANGEDDAMAGE()
 	local castingBarText = CastingBarFrameText:GetText()
-	if castingBarText and ( castingBarText == AimedShot or castingBarText == MultiShot or castingBarText == SteadyShot) then
+	if castingBarText and castingBarText == MultiShot then
 		CastingBarFrame.maxValue = min(CastingBarFrame.maxValue, CastingBarFrame.maxValue * GetSpeedModifier())
 		CastingBarFrame:SetMinMaxValues(0, CastingBarFrame.maxValue)
 	end
