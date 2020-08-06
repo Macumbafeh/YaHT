@@ -385,25 +385,28 @@ function YaHT:STOP_AUTOREPEAT_SPELL()
 	end
 end
 
-function YaHT:UNIT_SPELLCAST_SUCCEEDED(unit, name, rank)
+function YaHT:ResetSwingTimer()
 	local config = YaHT.db.profile
-	if self.mainFrame.casting then
-		self.mainFrame.casting = nil
-		return
+	self.mainFrame.lastshot = GetTime()
+	self.mainFrame.multishooting = nil
+	self.mainFrame.SwingStart = nil
+	self.mainFrame.ignoregcd = nil
+	if self.mainFrame.newswingtime then
+		self.mainFrame.swingtime = self.mainFrame.newswingtime
+		self.mainFrame.newswingtime = nil
 	end
-	if name==AutoShot then
-		if self.mainFrame.shooting then
-			self.mainFrame.lastshot = GetTime()
-			self.mainFrame.multishooting = nil
-			self.mainFrame.SwingStart = nil
-			self.mainFrame.ignoregcd = nil
-			if self.mainFrame.newswingtime then
-				self.mainFrame.swingtime = self.mainFrame.newswingtime
-				self.mainFrame.newswingtime = nil
-			end
-			self.mainFrame.texture:SetVertexColor(config.timercolor.r,config.timercolor.g,config.timercolor.b)
-			movementDelay = 0
-		end
+	self.mainFrame.texture:SetVertexColor(config.timercolor.r,config.timercolor.g,config.timercolor.b)
+	movementDelay = 0
+end
+
+function YaHT:UNIT_SPELLCAST_SUCCEEDED(unit, name, rank)
+	local casting = self.mainFrame.casting
+	self.mainFrame.casting = nil
+	if casting and name ~= AimedShot then return end
+
+	if (name==AutoShot and self.mainFrame.shooting) or name==AimedShot then
+		local time = GetTime()
+		self:ResetSwingTimer()
 	end
 end
 
