@@ -410,7 +410,6 @@ function YaHT:UNIT_SPELLCAST_SUCCEEDED(unit, name, rank)
 	if casting and name ~= AimedShot then return end
 
 	if (name==AutoShot and self.mainFrame.shooting) or name==AimedShot then
-		local time = GetTime()
 		self:ResetSwingTimer()
 	end
 end
