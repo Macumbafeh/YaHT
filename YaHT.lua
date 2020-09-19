@@ -101,8 +101,7 @@ local function OnUpdate(self, elapsed)
 		end
 	elseif self.SwingStart then
 		if self.moving or IsFalling() then
-			self.SwingStart = curTime
-			self.texture:SetWidth(0.01)
+			YaHT:ResetDrawTimer(curTime)
 			self:SetAlpha(config.malpha)
 			local timeSinceReadyToFire = curTime - self.lastshot + self.swingtime
 			if timeSinceReadyToFire > 0 then
@@ -285,13 +284,15 @@ function YaHT:COMBAT_LOG_EVENT_UNFILTERED(...)
 			end
 		end
 		return
-	elseif event == "SPELL_CAST_SUCCESS" and name == TranqShot and casterID == UnitGUID("player") then
-		if YaHT.db.profile.tranqannounce then
+	elseif event == "SPELL_CAST_SUCCESS" and casterID == UnitGUID("player") then
+		if name == TranqShot and YaHT.db.profile.tranqannounce then
 			local num
 			if YaHT.db.profile.announcetype == "CHANNEL" then
 				num = GetChannelName(YaHT.db.profile.targetchannel)
 			end
 			SendChatMessage(string.format(YaHT.db.profile.announcemsg,targetName), YaHT.db.profile.announcetype, nil, num or YaHT.db.profile.targetchannel)
+		elseif self.mainFrame.SwingStart then
+			YaHT:ResetDrawTimer(GetTime())
 		end
 	elseif event == "SPELL_MISSED" and name == GetSpellInfo(19801) and casterID == UnitGUID("player") then
 		if YaHT.db.profile.tranqannouncefail then
@@ -389,6 +390,11 @@ function YaHT:STOP_AUTOREPEAT_SPELL()
 		self.mainFrame:SetAlpha(0)
 		self.mainFrame:Hide()
 	end
+end
+
+function YaHT:ResetDrawTimer(curTime)
+	self.mainFrame.SwingStart = curTime
+	self.mainFrame.texture:SetWidth(0.01)
 end
 
 function YaHT:ResetSwingTimer()
