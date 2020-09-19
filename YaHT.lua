@@ -17,6 +17,7 @@ local AutoShot = GetSpellInfo(75)
 local AimedShot = GetSpellInfo(19434)
 local MultiShot = GetSpellInfo(2643)
 local SteadyShot = GetSpellInfo(34120)
+local TranqShot = GetSpellInfo(19801)
 local backdrop = {insets = {}}
 local mediaRequired
 local defaultMedia = {
@@ -284,7 +285,7 @@ function YaHT:COMBAT_LOG_EVENT_UNFILTERED(...)
 			end
 		end
 		return
-	elseif event == "SPELL_CAST_SUCCESS" and name == GetSpellInfo(19801) and casterID == UnitGUID("player") then
+	elseif event == "SPELL_CAST_SUCCESS" and name == TranqShot and casterID == UnitGUID("player") then
 		if YaHT.db.profile.tranqannounce then
 			local num
 			if YaHT.db.profile.announcetype == "CHANNEL" then
