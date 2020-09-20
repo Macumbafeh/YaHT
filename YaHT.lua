@@ -18,6 +18,7 @@ local AimedShot = GetSpellInfo(19434)
 local MultiShot = GetSpellInfo(2643)
 local SteadyShot = GetSpellInfo(34120)
 local TranqShot = GetSpellInfo(19801)
+local FeignDeath = GetSpellInfo(5384)
 local backdrop = {insets = {}}
 local mediaRequired
 local defaultMedia = {
@@ -81,12 +82,6 @@ local function OnUpdate(self, elapsed)
 	else
 		self.moving = nil
 	end
-
-	local isFeign=UnitIsFeignDeath("player")
-	if not isFeign and self.isFeign then
-		YaHT:ResetSwingTimer()
-	end
-	self.isFeign = isFeign
 
 	if not self.SwingStart and (curTime - self.lastshot) >= self.swingtime then
 		--Start Swing timer
@@ -416,7 +411,7 @@ function YaHT:UNIT_SPELLCAST_SUCCEEDED(unit, name, rank)
 	self.mainFrame.casting = nil
 	if casting and name ~= AimedShot then return end
 
-	if (name==AutoShot and self.mainFrame.shooting) or name==AimedShot then
+	if (name==AutoShot and self.mainFrame.shooting) or name==AimedShot or name==FeignDeath then
 		self:ResetSwingTimer()
 	end
 end
