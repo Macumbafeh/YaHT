@@ -23,6 +23,7 @@ locales\enUS.lua
 locales\deDE.lua
 locales\zhTW.lua
 locales\zhCN.lua
+locales\frFR.lua
 
 YaHT.lua
 defaults.lua
