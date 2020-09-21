@@ -8,7 +8,7 @@ Announces Tranquilizing Shot
 
 Please report any bugs you find!
 
-Install Instructions:
+## Install Instructions:
 - Use the green Clone or Download button to download a zip.
 - Extract to Interface\Addons folder
 - Remove "-master" from the folder name
