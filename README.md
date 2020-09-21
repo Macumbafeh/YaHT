@@ -8,9 +8,9 @@ Yet another Hunter Timer for WoW TBC 2.4.3
 - This addon requires Ace2 and Ace3 to also be installed
 
 ## Features
-Auto Shot swing timer, including draw timer
-Adds Multi-Shot cast time to the default castbar
-Announces Tranquilizing Shot
+- Auto Shot swing timer, including draw timer
+- Adds Multi-Shot cast time to the default castbar
+- Announces Tranquilizing Shot
 
 Please report any bugs you find!
 
